@@ -8,4 +8,4 @@ To install drupal locally:
 4. Create sites/default/settings.php and configure db
 5. Go to http://host/install.php
 
-credentials for drupal admin: (bobll53@gmail.com:password)
+credentials for drupal admin: (mebobby:password)
