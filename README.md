@@ -9,3 +9,5 @@ To install drupal locally:
 5. Go to http://host/install.php
 
 credentials for drupal admin: (mebobby:password)
+
+Upto chapter 3:Drupal's Theme Layer
