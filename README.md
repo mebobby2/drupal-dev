@@ -10,4 +10,4 @@ To install drupal locally:
 
 credentials for drupal admin: (mebobby:password)
 
-Upto chapter 3:Drupal's Theme Layer
+Upto page 100 - Render elements
