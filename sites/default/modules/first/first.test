@@ -6,7 +6,7 @@ class FirstTestCase extends DrupalWebTestCase {
     parent::setUp('first');
   }
 
-  public function getInfo() {
+  static public function getInfo() {
     return array(
       'name' => 'First module block functionality',
       'description' => 'Test blocks in the First module.',
@@ -17,8 +17,7 @@ class FirstTestCase extends DrupalWebTestCase {
   public function testBlockInfo() {
     $info = module_invoke('first', 'block_info');
 
-    $this->assertEqual(1, count($info)), t('Module defines a block.'));
-
+    $this->assertEqual(1, count($info), t('Module defines a block.'));
     $this->assertTrue(isset($info['list_modules']), t('Module list exists.'));
   }
 
