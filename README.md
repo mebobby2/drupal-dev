@@ -11,5 +11,3 @@ To install drupal locally:
 credentials for drupal admin: (mebobby:password)
 
 Upto page 142 - Building an Admin Interface
-
-before that: debug why the single blog lists are not showing up from the previos chapter.
