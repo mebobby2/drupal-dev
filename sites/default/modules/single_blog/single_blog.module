@@ -45,8 +45,13 @@ function single_blog_block_view($delta = '') {
       }
 
       if (!empty($items)) {
-        $block['content'] = theme('item_list', array(
-                              'items' => $items));
+        // $block['content'] = theme('item_list', array(
+        //                       'items' => $items));
+        
+        $block['content'] = array(
+          '#theme' => 'item_list__single_blog',
+          '#items' => $items,
+        );
       }
     }
   }
