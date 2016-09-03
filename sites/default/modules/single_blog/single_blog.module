@@ -37,7 +37,7 @@ function single_blog_block_view($delta = '') {
       $results = single_blog_list(SINGLE_BLOG_LIST_COUNT);
 
       $items = array();
-      foreach ($result as $node) {
+      foreach ($results as $node) {
         $items[] = array( #$items[] without a key automatically makes the key to a 0 integer
           'data' => l($node->title, 'node/' . $node->nid),
           'class' => array('node-' . $node->nid), #array(value) automatically makes the key to a 0 integer
