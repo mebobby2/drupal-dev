@@ -1,7 +1,7 @@
 /* $Id$ */
 
 .block-single-blog .content ul {
-  padding-left: : 0; /* LTR */
+  padding-left: 0; /* LTR */
 }
 
 .block-single-blog .content ul li {
