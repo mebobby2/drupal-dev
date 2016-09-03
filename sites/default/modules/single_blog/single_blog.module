@@ -63,6 +63,8 @@ function single_blog_block_view($delta = '') {
           '#url' => 'blog',
           '#title' => t('Read the latest blog entries.'),
         );
+
+        $block['content']['#attached']['css'][] = drupal_get_path('module', 'single_blog') . '/single-blog.css';
       }
     }
   }
