@@ -51,8 +51,6 @@ function template_preprocess_single_blog_block_item(&$variables) {
      // Theme the username.
      $variables['name'] = theme('username', array(
                            'account' => $variables['user']));
-
-  dpm($variables);
 }
 
 function single_blog_block_info() {
