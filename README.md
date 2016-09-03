@@ -10,4 +10,6 @@ To install drupal locally:
 
 credentials for drupal admin: (mebobby:password)
 
-Upto page 142 - Building an Admin Interface
+Upto page 169 - The token system
+
+Before that: get mailcatcher to work with php
