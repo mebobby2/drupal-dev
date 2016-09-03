@@ -55,6 +55,7 @@ function single_blog_block_view($delta = '') {
         $block['content']['list'] = array(
           '#theme' => 'item_list__single_blog',
           '#items' => $items,
+          '#pre_render' => array('single_blog_item_list_child_render'),
         );
 
         $block['content']['more'] = array(
@@ -67,4 +68,14 @@ function single_blog_block_view($delta = '') {
   }
 
   return $block;
+}
+
+function single_blog_item_list_child_render($elements) {
+  foreach (array_keys($elements['#items']) as $key) {
+    if (is_array($elements['#items'][$key]['data'])) {
+      $elements['#items'][$key]['data'] = 
+        drupal_render($elements['#items'][$key]['data']);
+    }
+  }
+  return $elements;
 }
