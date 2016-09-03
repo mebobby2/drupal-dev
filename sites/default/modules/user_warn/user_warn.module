@@ -30,3 +30,38 @@ function user_warn_menu() {
 
   return $items;
 }
+
+function user_warn_form($form, &$form_state) {
+  $form['user_warn_e-mail_subject'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Warning e-mail subject'),
+    '#description' => t('The subject of the email which will be sent to users'),
+    '#size' => 40,
+    '#maxlength' => 120,
+    '#required' => TRUE,
+  );
+
+  $form['user_warn_e-mail_text'] = array(
+    '#type' => 'textarea',
+    '#rows' => 10,
+    '#columns' => 40,
+    '#title' => t('Warning e-mail text'),
+    '#required' => TRUE,
+    '#description' => t('The text of the e-mail which will be sent to
+   users.'),
+  );
+
+  $form['user_warn_bcc'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('BCC admin on all e-mails'),
+    '#description' => t("Indicates whether the admin user (as set in
+site configuration) should be sent on all warning e-mails."),
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save settings'),
+  );
+
+  return $form;
+}
