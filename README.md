@@ -10,4 +10,4 @@ To install drupal locally:
 
 credentials for drupal admin: (mebobby:password)
 
-Upto page 100 - Render elements
+Upto page 119 - implementing single_blog_block_view
