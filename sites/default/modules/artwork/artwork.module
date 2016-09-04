@@ -51,7 +51,53 @@ function artwork_entity_info() {
   return $return;
 }
 
+function artwork_menu() {
+  $items['admin/structure/artworks'] = array(
+    'title' => 'Manage artworks',
+    'description' => 'Manage artworks',
+    'page callback' => 'artwork_overview_types',
+    'access arguments' => array('administer artworks'),
+  );
+
+  $items['admin/structure/artworks/manage/%artwork_type'] = array(
+    'title' => 'View artwork type',
+    'title callback' => 'artwork_type_page_title',
+    'title arguments' => array(4),
+    'page callback' => 'artwork_information',
+    'page arguments' => array(4),
+    'access arguments' => array('administer artworks'),
+  );
+
+  $items['admin/structure/artworks/manage/%artwork_type/view'] = array(
+    'title' => 'View',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );  
+
+  return $items;
+}
+
 // NON-DRUPAL-HOOK FUNCTIONS
+
+function artwork_overview_types() {
+  foreach ($artwork_types() as $key => $info) {
+    $type_url_str = str_replace('_', '-', $type);
+    $label = t('View @type', array('@type' => $info->name));
+
+    //variables declared in a loop in php are persisted across iterations.
+    // $items[] increments the array key at each iteration automatically, ie $items[0], $items[1], $items[2]...
+    $items[] = l($label, 'admin/structure/artwork/manage/' . $type_url_str);
+  }
+
+  return theme('item_list', array('items' => $items));
+}
+
+function artwork_type_page_title($type) {
+  return t('Manage @type', array('@type' => $type->name));
+}
+
+function artwork_information($artwork_type) {
+  return $artwork_type->name . ': ' . $artwork_type->description;
+}
 
 function artwork_uri($artwork) {
   return array(
