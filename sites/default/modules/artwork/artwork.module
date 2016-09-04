@@ -1,6 +1,9 @@
 <?php 
 // $Id$
 
+
+// DRUPAL HOOK FUNCTIONS
+
 function artwork_entity_info() {
   $return['artwork'] = array(
     'label' => t('Artwork'),
@@ -47,6 +50,8 @@ function artwork_entity_info() {
 
   return $return;
 }
+
+// NON-DRUPAL-HOOK FUNCTIONS
 
 function artwork_uri($artwork) {
   return array(
