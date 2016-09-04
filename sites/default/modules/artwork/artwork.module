@@ -79,13 +79,13 @@ function artwork_menu() {
 // NON-DRUPAL-HOOK FUNCTIONS
 
 function artwork_overview_types() {
-  foreach ($artwork_types() as $key => $info) {
+  foreach (artwork_types() as $type => $info) {
     $type_url_str = str_replace('_', '-', $type);
     $label = t('View @type', array('@type' => $info->name));
 
     //variables declared in a loop in php are persisted across iterations.
     // $items[] increments the array key at each iteration automatically, ie $items[0], $items[1], $items[2]...
-    $items[] = l($label, 'admin/structure/artwork/manage/' . $type_url_str);
+    $items[] = l($label, 'admin/structure/artworks/manage/' . $type_url_str);
   }
 
   return theme('item_list', array('items' => $items));
