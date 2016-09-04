@@ -1,0 +1,8 @@
+;$Id$
+name = Artwork
+description = Allows Muesums to store their artwork pieces.
+core = 7.x
+package = Drupal 7 Development
+files[] = artwork.module
+files[] = artwork.install
+files[] = artwork.controller.inc
