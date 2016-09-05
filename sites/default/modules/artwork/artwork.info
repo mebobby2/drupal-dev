@@ -6,3 +6,4 @@ package = Drupal 7 Development
 files[] = artwork.module
 files[] = artwork.install
 files[] = artwork.controller.inc
+files[] = artwork.pages.inc

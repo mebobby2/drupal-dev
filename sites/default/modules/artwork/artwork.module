@@ -91,6 +91,7 @@ function artwork_menu() {
       'page arguments' => array(2),
       'access arguments' => array('create artwork'),
       'description' => $type->description,
+      'file' => 'artwork.pages.inc',
     );
   }
 
