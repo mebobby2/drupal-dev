@@ -76,4 +76,19 @@ class ArtworkController extends DrupalDefaultEntityController {
       return FALSE;
     } 
   }
+
+  function saveRevision($artwork, $uid, $update = FALSE) {
+    // Hold on to the artwork's original creator_uid but swap
+    // in the revision's creator_uid for the momentary write.
+    $temp_uid = $artwork->uid;
+    $artwork->uid = $uid;
+    if ($update) {
+      drupal_write_record('artwork_revision', $artwork, 'vid');
+    }
+    else {
+      drupal_write_record('artwork_revision', $artwork);
+    }
+    // Reset the order's creator_uid to the original value.
+    $artwork->uid = $temp_uid;
+  }
 }
