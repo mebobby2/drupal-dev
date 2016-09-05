@@ -101,3 +101,7 @@ function artwork_form_submit($form, &$form_state) {
 
   $form_state['redirect'] = 'artwork/' . $artwork->aid;
 }
+
+function artwork_save($artwork) {
+  return entity_get_controller('artwork')->save($artwork);
+}
