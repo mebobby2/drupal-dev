@@ -115,8 +115,8 @@ function artwork_add($type) {
 }
 
 function artwork_add_page() {
-  $items = menu_get_item(); //gets the current menu
-  $links = system_admin_menu_block($items); //gets the children of an arbitrary menu item
+  $item = menu_get_item(); //gets the current menu
+  $links = system_admin_menu_block($item); //gets the children of an arbitrary menu item
 
   foreach ($links as $link) {
     $items[] = l($link['title'], $link['href'],
