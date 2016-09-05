@@ -99,6 +99,21 @@ function artwork_menu() {
 
 // NON-DRUPAL-HOOK FUNCTIONS
 
+function artwork_add($type) {
+  global $user;
+
+  $types = artwork_types();
+  $type = isset($type) ? str_replace('-', '_', $type) : NULL;
+  if (empty($types[$type])) {
+    return MENU_NOT_FOUND;
+  }
+
+  $artwork = entity_get_controller('artwork')->create($type);
+
+  drupal_set_title(t('Create @name', array('@name' => $types[$type]->name)), PASS_THROUGH);
+  return drupal_get_form($type . '_artwork_form', $artwork);
+}
+
 function artwork_add_page() {
   $items = menu_get_item(); //gets the current menu
   $links = system_admin_menu_block($items); //gets the children of an arbitrary menu item
