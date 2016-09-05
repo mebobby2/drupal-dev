@@ -68,12 +68,12 @@ class ArtworkController extends DrupalDefaultEntityController {
       // Ignore slave server temporarily to give time for the saved
       // order to be propagated to the slave.
       db_ignore_slave();
-        return $artwork;
-      }
+      return $artwork;
     }
-  catch (Exception $e) {
-    $transaction->rollback();
-    watchdog_exception('artwork', $e, NULL, WATCHDOG_ERROR);
-    return FALSE;
-  } 
+    catch (Exception $e) {
+      $transaction->rollback();
+      watchdog_exception('artwork', $e, NULL, WATCHDOG_ERROR);
+      return FALSE;
+    } 
+  }
 }
