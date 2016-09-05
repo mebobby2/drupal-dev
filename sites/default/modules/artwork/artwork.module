@@ -73,6 +73,27 @@ function artwork_menu() {
     'type' => MENU_DEFAULT_LOCAL_TASK,
   );  
 
+  $items['artwork/add'] = array(
+    'title' => 'Add new artwork',
+    'page callback' => 'artwork_add_page',
+    'access arguments' => array('create artworks'),
+    'weight' => 1,
+    'menu_name' => 'management',
+    'file' => 'artwork.pages.inc'
+  )
+
+  foreach (artwork_types() as $type) {
+    $type_url_str = str_replace('_', '-', $type->type);
+    $items['artwork/add/' . $type_url_str] = array(
+      'title' => $type->name,
+      'title callback' => 'check_plain',
+      'page callback' => 'artwork_add',
+      'page arguments' => array('create artwork'),
+      'access arguments' => array('create artwork'),
+      'description' => $type->description,
+    );
+  }
+
   return $items;
 }
 
