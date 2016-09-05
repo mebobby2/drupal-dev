@@ -88,7 +88,7 @@ function artwork_menu() {
       'title' => $type->name,
       'title callback' => 'check_plain',
       'page callback' => 'artwork_add',
-      'page arguments' => array('create artwork'),
+      'page arguments' => array(2),
       'access arguments' => array('create artwork'),
       'description' => $type->description,
     );
