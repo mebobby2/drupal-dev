@@ -80,7 +80,7 @@ function artwork_menu() {
     'weight' => 1,
     'menu_name' => 'management',
     'file' => 'artwork.pages.inc'
-  )
+  );
 
   foreach (artwork_types() as $type) {
     $type_url_str = str_replace('_', '-', $type->type);
@@ -98,6 +98,19 @@ function artwork_menu() {
 }
 
 // NON-DRUPAL-HOOK FUNCTIONS
+
+function artwork_add_page() {
+  $items = menu_get_item(); //gets the current menu
+  $links = system_admin_menu_block($items); //gets the children of an arbitrary menu item
+
+  foreach ($links as $link) {
+    $items[] = l($link['title'], $link['href'],
+                 $item['localized_options'])
+                 . ': ' . filter_xss_admin($link['description']);
+  }
+
+  return theme('item_list', array('items' => $items));
+}
 
 function artwork_overview_types() {
   foreach (artwork_types() as $type => $info) {
