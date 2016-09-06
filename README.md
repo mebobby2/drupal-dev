@@ -12,5 +12,3 @@ credentials for drupal admin: (mebobby:password)
 
 Upto page 199 - Viewing artworks
 
-before that: seperate client facing func into .pages and admin into .admin
-

@@ -7,3 +7,4 @@ files[] = artwork.module
 files[] = artwork.install
 files[] = artwork.controller.inc
 files[] = artwork.pages.inc
+files[] = artwork.admin.inc
