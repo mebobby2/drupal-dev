@@ -82,7 +82,7 @@ function artwork_form_validate($form, &$form_state) {
 }
 
 function artwork_form_submit($form, &$form_state) {
-  global $user;
+  global $user; //$user is like the current_user. It's stored globally.
 
   $artwork = &$form_state['artwork'];
 
@@ -104,4 +104,25 @@ function artwork_form_submit($form, &$form_state) {
 
 function artwork_save($artwork) {
   return entity_get_controller('artwork')->save($artwork);
+}
+
+function artwork_page_title($artwork) {
+  return $artwork->title;
+}
+
+function artwork_page_view($artwork, $view_mode = 'full') {
+  $artwork->content = array();
+  if ($view_mode == 'teaser') {
+    $artwork->content['title'] = array(
+      '#markup' => filter_xss($artwork->title),
+      '#weight' => -5,
+    );
+  }
+
+  field_attach_prepare_view('artwork', $view_mode);
+
+  entity_prepare_view('artwork', array($artwork->aid => $artwork));
+  $artwork->content += field_attach_view('artwork', $artwork, $view_mode);
+
+  return $artwork->content;
 }

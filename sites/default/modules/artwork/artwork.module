@@ -97,6 +97,22 @@ function artwork_menu() {
     );
   }
 
+  $items['artwork/%artwork'] = array(
+    'title callback' => 'artwork_page_title',
+    'title arguments' => array(1),
+    'page callback' => 'artwork_page_view',
+    'page arguments' => array(1),
+    'access arguments' => array('view artworks'),
+    'type' => MENU_CALLBACK,
+    'file' => 'artwork.pages.inc',
+  );
+
+  $items['artwork/$artwork/view'] = array(
+    'title' => 'View',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => =10,
+  );
+
   return $items;
 }
 
