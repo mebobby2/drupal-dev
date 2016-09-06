@@ -110,7 +110,7 @@ function artwork_menu() {
   $items['artwork/$artwork/view'] = array(
     'title' => 'View',
     'type' => MENU_DEFAULT_LOCAL_TASK,
-    'weight' => =10,
+    'weight' => -10,
   );
 
   return $items;
