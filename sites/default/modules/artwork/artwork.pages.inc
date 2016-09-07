@@ -129,7 +129,7 @@ function artwork_page_view($artwork, $view_mode = 'full') {
 
 function artwork_page_list_recent($list_count = 5) {
   $content = array();
-  $result = artwork_list_recent($list_count)
+  $result = artwork_list_recent($list_count);
 
   $artworks = artwork_load_multiple(array_keys($result['artwork']));
   foreach ($artworks as $artwork) {
