@@ -171,3 +171,13 @@ function artwork_page_list_recent($list_count = 5) {
 
   return $content;
 }
+
+function artwork_form_delete_submit($form, &$form_state) {
+  $destination = array();
+  if (isset($_GET['destination'])) {
+    $destination = drupal_get_destination();
+    unset($_GET['destination']);
+  }
+  $artwork = $form['#artwork'];
+  $form_state['redirect'] = array('artwork/' . $artwork->aid . '/delete', array('query' => $destination));
+}

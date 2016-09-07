@@ -138,6 +138,16 @@ function artwork_menu() {
     'file' => 'artwork.pages.inc',
   );
 
+  $items['artwork/%artwork/delete'] = array(
+    'title' => 'Delete',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('artwork_delete_confirm', 1),
+    'access arguments' = array('delete artworks'),
+    'weight' => 1,
+    'type' => MENU_LOCAL_TASK,
+    'context' => MENU_CONTEXT_INLINE,
+  );
+
   return $items;
 }
 
