@@ -113,6 +113,13 @@ function artwork_menu() {
     'weight' => -10,
   );
 
+  $items['artwork/recent'] = array(
+    'title' => 'Recently added artworks',
+    'page callback' => 'artwork_page_list_recent',
+    'access arguments' => array('view artworks'),
+    'file' => 'artwork.pages.inc',
+  );
+
   return $items;
 }
 

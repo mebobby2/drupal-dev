@@ -12,3 +12,5 @@ credentials for drupal admin: (mebobby:password)
 
 Upto page 200 - Editing an artwork
 
+before that - get the recently added artworks page to work first
+

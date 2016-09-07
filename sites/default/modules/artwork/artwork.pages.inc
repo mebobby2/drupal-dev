@@ -126,3 +126,22 @@ function artwork_page_view($artwork, $view_mode = 'full') {
 
   return $artwork->content;
 }
+
+function artwork_page_list_recent() {
+  $content = array();
+
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'artwork')
+    ->propertyOrderBy('created', 'DESC')
+    #->fieldCondition('field_artist', 'value', 'Da Vinci', 'CONTAINS', 0)
+    ->range(0,100);
+  $result = $query->execute();
+
+  $artworks = artwork_load_multiple(array_keys($result['artwork']));
+  foreach ($artworks as $artwork) {
+    $content[$artwork->aid] = artwork_page_view($artwork, 'teaser');
+  }
+
+  return $content;
+}
