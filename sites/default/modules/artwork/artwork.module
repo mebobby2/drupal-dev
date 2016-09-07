@@ -133,6 +133,33 @@ function artwork_forms() {
   return $forms;
 }
 
+function artwork_block_info() {
+  $blocks = array();
+  $blocks['recent'] = array(
+    'info' => t('Recently added artworks'), 
+  );
+  return $blocks;
+}
+
+function artwork_block_view($delta = '') {
+  $block = array('subject' => '', 'content' => '');
+  if ($delta == 'recent') {
+    $block['subject'] = t('Recent added artworks');
+
+    $result = artwork_list_recent(5);
+    $artworks = artwork_load_multiple(array_keys($result['artwork']));
+    $artwork_names = array();
+    foreach ($artworks as $artwork) {
+      $artwork_names[] = $artwork->title;
+    }
+    $block['content'] = array(
+      '#theme' => 'item_list',
+      '#items' => $artwork_names,
+    );
+  }
+  return $block;
+}
+
 // NON-DRUPAL-HOOK FUNCTIONS
 
 function artwork_uri($artwork) {
@@ -173,4 +200,13 @@ function artwork_load($aid = NULL, $vid = NULL, $reset = FALSE) {
 
 function artwork_load_multiple($aids = array(), $conditions = array(), $reset = FALSE) {
   return entity_load('artwork', $aids, $conditions, $reset);
+}
+
+function artwork_list_recent($list_count) {
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'artwork')
+    ->propertyOrderBy('created', 'DESC')
+    ->range(0, $list_count);
+  return $query->execute();
 }
