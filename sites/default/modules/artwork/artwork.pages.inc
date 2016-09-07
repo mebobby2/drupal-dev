@@ -113,15 +113,15 @@ function artwork_page_title($artwork) {
 function artworks_page() {
   $result = artwork_list_recent(10000);
   $artworks = artwork_load_multiple(array_keys($result['artwork']));
-  $artwork_names = array();
+  $artwork_links = array();
   foreach ($artworks as $artwork) {
-    $artwork_names[] = $artwork->title;
+    $artwork_links[] = l($artwork->title, 'artwork/' . $artwork->aid . '/edit', array());
   }
   return array(
     '#type' => 'container',
     'artwork' => array(
       '#theme' => 'item_list',
-      '#items' => $artwork_names,
+      '#items' => $artwork_links,
     ),
     'view_all' => array(
       '#type'  => 'link',
