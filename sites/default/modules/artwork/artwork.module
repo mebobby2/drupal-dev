@@ -152,9 +152,27 @@ function artwork_block_view($delta = '') {
     foreach ($artworks as $artwork) {
       $artwork_names[] = $artwork->title;
     }
+    // $block['content'] = array(
+    //   '#theme' => 'item_list',
+    //   '#items' => $artwork_names,
+    // );
+
     $block['content'] = array(
-      '#theme' => 'item_list',
-      '#items' => $artwork_names,
+      'artwork' => array(
+        '#theme' => 'item_list',
+        '#items' => $artwork_names,
+      ),
+      'view_all' => array(
+        '#type'  => 'link',
+        '#title' => 'Show all',
+        '#href'  => 'artworks',
+      ),
+      // 'view_all' => array(   //A different way of adding the same 'Show all' link. Using themes.
+      //   '#theme' => 'link',
+      //   '#text' => 'Show all',
+      //   '#path' => 'artworks',
+      //   '#options' => array('attributes' => array('title' => 'Show all')),
+      // ),
     );
   }
   return $block;
