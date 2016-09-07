@@ -20,7 +20,6 @@ function single_blog_list($number) {
 
 # Registers our single_blog_block_item
 function single_blog_theme($existing, $type, $theme, $path) {
-  echo 'fuck';
   return array(
     'single_blog_block_item' => array(
       'variables' => array(
