@@ -110,6 +110,27 @@ function artwork_page_title($artwork) {
   return $artwork->title;
 }
 
+function artworks_page() {
+  $result = artwork_list_recent(10000);
+  $artworks = artwork_load_multiple(array_keys($result['artwork']));
+  $artwork_names = array();
+  foreach ($artworks as $artwork) {
+    $artwork_names[] = $artwork->title;
+  }
+  return array(
+    '#type' => 'container',
+    'artwork' => array(
+      '#theme' => 'item_list',
+      '#items' => $artwork_names,
+    ),
+    'view_all' => array(
+      '#type'  => 'link',
+      '#title' => 'Add new',
+      '#href'  => 'artwork/add',
+    ),
+  );
+}
+
 function artwork_page_view($artwork, $view_mode = 'full') {
   $artwork->content = array();
   if ($view_mode == 'teaser') {

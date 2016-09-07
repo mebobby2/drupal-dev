@@ -120,6 +120,13 @@ function artwork_menu() {
     'file' => 'artwork.pages.inc',
   );
 
+  $items['artworks'] = array(
+    'title' => 'All artworks',
+    'page callback' => 'artworks_page',
+    'access arguments' => array('view artworks'),
+    'file' => 'artwork.pages.inc',
+  );
+
   return $items;
 }
 
