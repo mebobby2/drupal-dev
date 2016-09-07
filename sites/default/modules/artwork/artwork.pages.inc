@@ -131,6 +131,18 @@ function artworks_page() {
   );
 }
 
+function artwork_page_edit($artwork) {
+  $types = artwork_types();
+  drupal_set_title(
+    t('<em>Edit @type</em> @title', 
+      array('@type' => $types[$artwork->type]->name,
+          '@title' => $artwork->title)),
+    PASS_THROUGH
+  );
+
+  return drupal_get_form($artwork->type . '_artwork_form', $artwork);
+}
+
 function artwork_page_view($artwork, $view_mode = 'full') {
   $artwork->content = array();
   if ($view_mode == 'teaser') {

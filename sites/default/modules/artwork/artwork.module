@@ -127,6 +127,17 @@ function artwork_menu() {
     'file' => 'artwork.pages.inc',
   );
 
+  $items['artwork/%artwork/edit'] = array(
+    'title' => 'Edit',
+    'page callback' => 'artwork_page_edit',
+    'page arguments' => array(1),
+    'access arguments' => array('update artworks'),
+    'weight' => 0,
+    'type' => MENU_LOCAL_TASK,
+    'context' => MENU_CONTEXT_PAGE | MENU_CONTEXT_INLINE,
+    'file' => 'artwork.pages.inc',
+  );
+
   return $items;
 }
 
