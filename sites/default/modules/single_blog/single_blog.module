@@ -87,7 +87,7 @@ function single_blog_block_view($delta = '') {
         //                       'items' => $items));
 
         $block['content']['list'] = array(
-          '#theme' => 'item_list__single_blog',
+          '#theme' => 'item_list__single_blog', #item_list__single_blog is a theme hook suggestion
           '#items' => $items,
           '#pre_render' => array('single_blog_item_list_child_render'),
         );
