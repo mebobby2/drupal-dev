@@ -244,6 +244,14 @@ function artwork_load($aid = NULL, $vid = NULL, $reset = FALSE) {
   return $artwork ? reset($artwork) : FALSE;
 }
 
+function artwork_delete($aid) {
+  return artwork_delete_multiple(array($aid));
+}
+
+function artwork_delete_multiple($aids) {
+  return entity_get_controller('artwork')->delete($aids);
+}
+
 function artwork_load_multiple($aids = array(), $conditions = array(), $reset = FALSE) {
   return entity_load('artwork', $aids, $conditions, $reset);
 }

@@ -91,4 +91,43 @@ class ArtworkController extends DrupalDefaultEntityController {
     // Reset the order's creator_uid to the original value.
     $artwork->uid = $temp_uid;
   }
+
+  public function delete($aids) {
+    if (!empty($aids)) {
+      $artworks = $this->load($aids, array());
+
+      $transaction = db_transaction();
+
+      try {
+        db_delete('artwork')
+          ->condition('aid', $aids, 'IN')
+          ->execute();
+
+        db_delete('artwork_revision')
+          ->condition('aid', $aids, 'IN')
+          ->execute();
+
+        foreach ($artworks as $artwork_id => $artwork) {
+          field_attach_delete('artwork', $artwork);
+        }
+
+        // Ignore slave server temporarily to give time for the
+        // saved artwork to be propagated to the slave.
+        db_ignore_slave();
+      }
+      catch (Exception $e) {
+        $transaction->rollback();
+        watchdog_exception('artwork', $e, NULL, WATCHDOG_ERROR);
+        return FALSE;
+      }
+
+      module_invoke_all('entity_delete', $artwork, 'artwork');
+
+      // Clear the page and block and artwork caches.
+      cache_clear_all();
+      $this->resetCache();
+    }
+
+    return TRUE;
+  }
 }

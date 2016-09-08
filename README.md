@@ -10,6 +10,5 @@ To install drupal locally:
 
 credentials for drupal admin: (mebobby:password)
 
-Upto page 202 - Editing an artwork
+Upto page 206 - Chapter 7
 
-This menu item calls drupal_get_form directly, speci cally loading the artwork_ delete_confirm form created by the function of the same name:

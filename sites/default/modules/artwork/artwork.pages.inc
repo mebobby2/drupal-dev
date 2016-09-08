@@ -181,3 +181,31 @@ function artwork_form_delete_submit($form, &$form_state) {
   $artwork = $form['#artwork'];
   $form_state['redirect'] = array('artwork/' . $artwork->aid . '/delete', array('query' => $destination));
 }
+
+function artwork_delete_confirm($form, &$form_state, $artwork) {
+  $form['#artwork'] = $artwork;
+  $form['aid'] = array('#type' => 'value', '#value' => $artwork->aid);
+
+  return confirm_form($form, 
+    t('Are you sure you want to delete %title?', array('%title' => $artwork->title)),
+    'artwork/' . $artwork->aid,
+    t('This action cannot be undone.'),
+    t('Delete'),
+    t('Cancel')
+  );
+}
+
+function artwork_delete_confirm_submit($form, &$form_state) {
+  if ($form_state['values']['confirm']) {
+    $artwork = artwork_load($form_state['values']['aid']);
+    artwork_delete($form_state['values']['aid']);
+    watchdog('artwork', '@type: deleted %title.', array('@type' => $artwork->type, '%title' => $artwork->title));
+
+    $types = artwork_types();
+    drupal_set_message(t('@type %title has been deleted.', array(
+                            '@type' => $types[$artwork->type]->name,
+                            '%title' => $artwork->title)));
+  }
+
+  $form_state['redirect'] = '<front>';
+}
