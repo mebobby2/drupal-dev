@@ -10,5 +10,5 @@ To install drupal locally:
 
 credentials for drupal admin: (mebobby:password)
 
-Upto page 206 - Chapter 7
+Upto page 214 - Declaring a widget
 
