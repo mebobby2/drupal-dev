@@ -69,3 +69,82 @@ function dimfield_field_validate($obj_type, $object, $field, $instance, $langcod
     }
   }
 }
+
+#### Widgets (for displaying a field type)
+
+function dimfield_field_widget_info() {
+  return array(
+    'dimfield_simple' => array(
+      'label' => t('Seperate text fields'),
+      'description' => t('Allow the user to enter each dimension separately.'),
+      'field types' => array('dimensions'),
+      'behaviors' => array(
+        'multiple values' => FIELD_BEHAVIOR_DEFAULT,
+        'default value' => FIELD_BEHAVIOR_DEFAULT,
+      ),
+    ),
+    'dimfield_combined' => array(
+      'label' => t('Combined text field'),
+      'description' => t('Allow the user to enter all dimensions together.'),
+      'field types' => array('dimensions'),
+      'settings' => array('size' => 10),
+      'behaviors' => array(
+        'multiple values' => FIELD_BEHAVIOR_DEFAULT,
+        'default value' => FIELD_BEHAVIOR_DEFAULT,
+      ),
+    )
+  );
+}
+
+function dimfield_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  $base = $element;
+
+  if ($instance['widget']['type'] == 'dimfield_simple') {
+    $element['height'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Height'),
+      '#default_value' => isset($items[$delta]['height']) ? $items[$delta]['height'] : NULL,
+      ) + $base;
+
+    $element['width'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Width'),
+      '#default_value' => isset($items[$delta]['width']) ? $items[$delta]['width'] : NULL,
+      ) + $base;
+
+    if ($field['settings']['num_dimensions'] == 3) {
+      $element['depth'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Depth'),
+        '#default_value' => isset($items[$delta]['depth']) ? $items[$delta]['depth'] : NULL,
+        ) + $base;
+    }
+
+    $element['units'] = array(
+      '#type' => 'select',
+      '#title' => t('Units'),
+      '#default_value' => isset($items[$delta]['units']) ? $items[$delta]['units'] : NULL,
+      '#options' => dimfield_units(),
+    );
+  }
+
+  return $element;
+}
+
+function dimfield_units($unit = NULL) {
+  static $units; //$units is static, meaning it will be remembered the next time this function is called
+
+  if (empty($units)) {
+    $units = array(
+      'inches' => t('Inches'),
+      'feet' => t('Feet'),
+      'meters' => t('Meters'),
+    );
+  }
+
+  if ($unit) {
+    return isset($units[$unit]) ? $units[$unit] : '';
+  }
+
+  return $units;
+}
