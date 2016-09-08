@@ -77,10 +77,8 @@ function dimfield_field_settings_form($form, $instance, $has_data) {
   }
 }
 
-function dimfield_field_validate($obj_type, $object, $field,
-                                    $instance, $langcode, &$items,
-                                    &$errors) {
-  if ($field['type'] == 'dimensions')'' {
+function dimfield_field_validate($obj_type, $object, $field, $instance, $langcode, &$items, &$errors) {
+  if ($field['type'] == 'dimensions') {
     $columns = array(
      'height' => 'max_height',
      'width' => 'max_width',
@@ -90,19 +88,15 @@ function dimfield_field_validate($obj_type, $object, $field,
     }
     foreach ($items as $delta => $item) {
       foreach ($columns as $column => $max_key) {
-        if ($instance['settings'][$max_key] &&
-           !empty($item[$column]) &&
-           $item[$column] > $instance['settings'][$max_key]) {
+        if ($instance['settings'][$max_key] && !empty($item[$column]) && $item[$column] > $instance['settings'][$max_key]) {
           $errors[$field['field_name']][$delta][] = array(
             'error' => 'dimfield_' . $max_key,
-            'message' => t(
-                '%name: The %column may not be larger than %max.',
-                      array('%column' => $column,
-                         '%name' => $instance['label'],
-                         '%max' => $instance['settings'][$max_key],
-                          ''x) 
-                  ),
-            );
+            'message' => t('%name: The %column may not be larger than %max.', array(
+              '%column' => $column,
+              '%name' => $instance['label'],
+              '%max' => $instance['settings'][$max_key],
+            )),
+          );
         }
       }
     }
