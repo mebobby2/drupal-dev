@@ -146,6 +146,7 @@ function artwork_menu() {
     'weight' => 1,
     'type' => MENU_LOCAL_TASK,
     'context' => MENU_CONTEXT_INLINE,
+    'file' => 'artwork.pages.inc',
   );
 
   return $items;
