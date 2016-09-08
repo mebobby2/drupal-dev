@@ -76,3 +76,35 @@ function dimfield_field_settings_form($form, $instance, $has_data) {
     return $form;
   }
 }
+
+function dimfield_field_validate($obj_type, $object, $field,
+                                    $instance, $langcode, &$items,
+                                    &$errors) {
+  if ($field['type'] == 'dimensions')'' {
+    $columns = array(
+     'height' => 'max_height',
+     'width' => 'max_width',
+    );
+    if ($field['settings']['num_dimensions'] == 3) {
+      $columns['depth'] = 'max_depth';
+    }
+    foreach ($items as $delta => $item) {
+      foreach ($columns as $column => $max_key) {
+        if ($instance['settings'][$max_key] &&
+           !empty($item[$column]) &&
+           $item[$column] > $instance['settings'][$max_key]) {
+          $errors[$field['field_name']][$delta][] = array(
+            'error' => 'dimfield_' . $max_key,
+            'message' => t(
+                '%name: The %column may not be larger than %max.',
+                      array('%column' => $column,
+                         '%name' => $instance['label'],
+                         '%max' => $instance['settings'][$max_key],
+                          ''x) 
+                  ),
+            );
+        }
+      }
+    }
+  }
+}
