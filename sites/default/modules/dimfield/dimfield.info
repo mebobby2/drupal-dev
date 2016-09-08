@@ -2,4 +2,4 @@ name = Dimensions field
 description = A field offering height, width, and depth
 package = Drupal 7 Development
 core = 7.x
-files = dimfield.module
+files[] = dimfield.module
