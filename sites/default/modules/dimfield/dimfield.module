@@ -49,3 +49,30 @@ function dimfield_field_schema($field) {
     return $schema;
   }
 }
+
+function dimfield_field_is_empty($item, $field) {
+  if ($field['type'] == 'dimensions') {
+    if (empty($item['height']) && empty($item['width']) && ($field['settings']['num_dimensions'] == 2 || empty($item['depth']))) {
+        return TRUE;
+    }
+  }
+  return FALSE;
+}
+
+function dimfield_field_settings_form($form, $instance, $has_data) {
+  if ($field['type'] == 'dimensions') {
+    $settings = $field['settings'];
+    $form['num_dimensions'] = array(
+      '#type' => 'select',
+      '#title' => t('How many dimensions'),
+      '#options' => array(
+        2 => t('Height and width'),
+        3 => t('Height, width, and depth'),
+      ),
+      '#default_value' => $settings['num_dimensions'],
+      '#required' => FALSE,
+      '#description' => t('Is this for a 2-dimensional or 3-dimensional object?'),
+    );
+    return $form;
+  }
+}
