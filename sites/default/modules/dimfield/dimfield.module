@@ -26,7 +26,7 @@ function dimfield_field_is_empty($item, $field) {
   return FALSE;
 }
 
-function dimfield_field_settings_form($form, $instance, $has_data) {
+function dimfield_field_settings_form($field, $instance, $has_data) {
   if ($field['type'] == 'dimensions') {
     $settings = $field['settings'];
     $form['num_dimensions'] = array(
