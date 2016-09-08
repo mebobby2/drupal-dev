@@ -172,6 +172,9 @@ function artwork_page_list_recent($list_count = 5) {
   return $content;
 }
 
+//Our delete button has its own submit handler, i.e. it does not go through the menu system. The submit handler
+//calls this method, and in this method, we just redirect the user to /artwork/:id/delete, which will trigger 
+//the menu system routes.
 function artwork_form_delete_submit($form, &$form_state) {
   $destination = array();
   if (isset($_GET['destination'])) {
