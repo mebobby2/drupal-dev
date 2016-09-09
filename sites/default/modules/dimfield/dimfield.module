@@ -127,8 +127,98 @@ function dimfield_field_widget_form(&$form, &$form_state, $field, $instance, $la
       '#options' => dimfield_units(),
     );
   }
+  elseif ($instance['widget']['type'] == 'dimfield_combined') {
+    $element['#element_validate'] = array('_dimfield_combined_validate');
+
+    $default = NULL;
+    if (isset($items[$delta])) {
+      $item = $items[$delta];
+      if (isset($item['height'], $item['width'])) {
+        $default = $item['height'] . 'x' . $item['width'];
+        if ($field['settings']['num_dimensions'] == 3) {
+          $default .= 'x' . $item['depth'];
+        }
+      }
+    }
+
+    $element['dimfield_combined_wrapper']['#theme'] = 'dimfield_combined_wrapper';
+    $element['dimfield_combined_wrapper']['#attached']['css'][] = drupal_get_path('module', 'dimfield') . '/dimfield-admin.css';
+
+    $element['dimfield_combined_wrapper']['height_width_depth'] = 
+      array('#type' => 'textfield',
+            '#default_value' => $default,
+            '#size' => $instance['widget']['settings']['size'],
+          ) + $base;
+
+    $element['dimfield_combined_wrapper']['units'] = 
+      array('#type' => 'select',
+            '#title' => t('Units'),
+            '#default_value' => isset($items[$delta]['units']) ? $items[$delta]['units'] : NULL,
+            '#options' => dimfield_units(),
+          );
+  }
 
   return $element;
+}
+
+function _dimfield_combined_validate($element, &$form_state) {
+  if ($form_state['complete form']['#form_id'] == 'field_ui_field_edit_form') {
+    return;
+  }
+
+  $values = $form_state['values'];
+  $language = $values['language'];
+  $field_name = $element['#field_name'];
+
+  $num_dimensions = 2;
+  if (array_search('depth', $element['#columns'])) {
+    $num_dimensions = 3;
+  }
+
+  foreach ($values[$field_name][$language] as $delta => $item) {
+    if (substr_count($item['dimfield_combined_wrapper']['height_width_depth'], 'x') == $num_dimensions - 1) {
+      if ($num_dimensions == 2) {
+        list($height, $width) = explode('x', $item['dimfield_combined_wrapper']['height_width_depth']);
+        $new_values = array(
+          'height' => trim($height),
+          'width' => trim($width),
+          'units' => $items['dimfield_combined_wrapper']['units'],
+        );
+      }
+      elseif ($num_dimensions == 3) {
+        list($height, $width, $depth) = explode('x', $item['dimfield_combined_wrapper']['height_width_depth']);
+        $new_values = array(
+          'height' => trim($height),
+          'width' => trim($width),
+          'depth' => trim($depth),
+          'units' => $item['dimfield_combined_wrapper']['units'],
+        );
+      }
+
+      form_set_value($element, $new_values, $form_state);
+    }
+    else {
+      form_set_error($field_name, t('You must specify all dimentions, seperated by an \'x\'.'));
+    }
+  }
+}
+
+function dimfield_field_widget_settings_form($field, $instance) {
+  $form = array();
+
+  $widget = $instance['widget'];
+  $settings = $widget['settings'];
+
+  if ($widget['type'] == 'dimfield_combined') {
+    $form['size'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Size of textfield'),
+      '#default_value' => $settings['size'],
+      '#required' => TRUE,
+      '#element_validate' => array('_element_validate_integer_positive'),
+    );
+  }
+  return $form;
 }
 
 function dimfield_units($unit = NULL) {
