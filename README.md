@@ -10,5 +10,5 @@ To install drupal locally:
 
 credentials for drupal admin: (mebobby:password)
 
-Upto page 221 - The first line tells the rendering system to use a theme hook named dim eld_ combined_wrapper to render everything
+Upto page 282 - View operations and access control modules
 
