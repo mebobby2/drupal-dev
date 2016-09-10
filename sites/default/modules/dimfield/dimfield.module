@@ -262,34 +262,6 @@ function dimfield_field_formatter_info() {
   );
 }
 
-function dimfield_field_formatter_view($obj_type, $object, $field, $instance, $langcode, $items, $display) {
-  $element = array();
-  $settings = $display['settings'];
-
-  switch ($display['type']) {
-    case 'dimfield_default':
-      foreach ($items as $delta => $item) {
-        if ($field['settings']['num_dimensions'] == 2) {
-          $output = t('@height @unit by @width @unit', array('@height' => $item['height'],
-                  '@width' => $item['width'],
-                   '@unit' => dimfield_units($item['units']),
-          ));
-        }
-        elseif ($field['settings']['num_dimensions'] == 3) {
-          $output = t('@height @unit by @width @unit by @depth @unit', array(
-              '@height' => $item['height'],
-              '@width' => $item['width'],
-              '@depth' => $item['depth'],
-              '@unit' => dimfield_units($item['units']),
-            ));
-        }
-        $element[$delta] = array('#markup' => $output);
-      }
-      break;
-  }
-  return $element;
-}
-
 function dimfield_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
