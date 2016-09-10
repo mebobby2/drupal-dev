@@ -10,5 +10,5 @@ To install drupal locally:
 
 credentials for drupal admin: (mebobby:password)
 
-Upto page 282 - View operations and access control modules
+Upto page 336 - Chapter 11
 
