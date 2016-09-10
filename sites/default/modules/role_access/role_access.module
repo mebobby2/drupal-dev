@@ -54,3 +54,32 @@ function role_access_permission() {
     ),
   );
 }
+
+function role_access_node_access_explain($row) {
+  // If not our grant, ignore.
+  if ($row->realm != 'role_access') {
+    return NULL;
+  }
+  // Get a list of user roles.
+  $roles = user_roles();
+  // Get our permission definitions.
+  $permissions = role_access_permission();
+
+  // Initiate a results variable, for theming the output.
+  $results = array();
+  // Check each access rule.
+  foreach (array('view', 'update', 'delete') as $op) {
+    if (in_array($row->gid, array_keys($roles))) {
+      $results[] = t('%roles with the permission %perm may %op this content', array('%role' => $roles[$row->gid], '%perm' => $permissions[$op . ' role access content']['title'], '%op' => $op));
+    }
+  }
+  // Prepare for theming. The $results are already secure, having run
+  // through t().
+  $variables = array(
+    'items' => $results,
+    'title' => '',
+    'type' => 'ul',
+  );
+  // Return a nicely themed list.
+  return theme('item_list', $variables);
+}
