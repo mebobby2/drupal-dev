@@ -5,8 +5,20 @@ function role_edit_node_access($node, $op, $account) {
     return NODE_ACCESS_IGNORE;
   }
 
-  $owner = user_load($node->uid);
-  $diff = array_diff($account->roles, $owner->roles);
+  if ($account->uid == $node->uid) {
+    return NODE_ACCESS_ALLOW;
+  }
+
+  //__FUNCTION__ returns the current function name.
+  // drupal_static creates an item in its static cache
+  //and uses the function name as the key.
+  $owners = &drupal_static(__FUNCTION__);
+  if (!isset($owners[$node->uid])) {
+    $owners[$node->uid] = user_load($node->uid);
+  }
+
+
+  $diff = array_diff($account->roles, $owners[$node->uid]->roles);
 
   if (empty($diff)) {
     return NODE_ACCESS_ALLOW;
