@@ -1,0 +1,73 @@
+<?php
+
+function role_access_extend_permission() {
+  return array(
+    'view role access as authenticated user' => array(
+      'title' => t('View role-restricted content as authenticated user'),
+      'description' => t('Allow annoymous users to view content created by authenticated users. Lack of this permission removes access for users in custom roles.'),
+    ),
+    'assign role access as authenticated user' => array(
+      'title' => t('Save role-restricted content as authenticated user'),
+      'description' => t('Save new and updated content so that authenticated users have permission. <em>Normally this is set to off.</em>'),
+    ),
+  );
+}
+
+function role_access_extend_node_grants_alter(&$grants, $account, $op) {
+  if ($op != 'view' || !isset($grants['role_access'])) {
+    return;
+  }
+
+  $access = user_access('view role access as authenticated user');
+
+  $rid = DRUPAL_AUTHENTICATED_RID;
+
+  if ($account->uid > 0) {
+    if (count($account->roles) > 1 && in_array($rid, $grants['role_access']) && !$access) {
+      $grants['role_access'] = array_flip($grants['role_access']);
+      unset($grants['role_access'][$rid]);
+      $grants['role_access'] = array_flip($grants['role_access']);
+    }
+    elseif ($access) {
+      $grants['role_access'][] = $rid;
+    }
+  }
+}
+
+function role_access_extend_node_access_records_alter(&$grants, $node) {
+  // We cannot use the global $user here; we want the creator/editor of the content.
+  $account = user_load($node->uid);
+
+  // Check the permission.
+  $access = user_access('assign role access as authenticated user', $account);
+  
+  // Get the defined role id for 'authenticated user'.
+  $rid = DRUPAL_AUTHENTICATED_RID;
+
+  // User 1 is sneaky, and might defeat our rule set.
+  if ($account->uid == 1) {
+    $access = FALSE;
+  }
+  // Now add the role.
+  if ($access) {
+    $grants['role_access'][] = array(
+      'realm' => 'role_access',
+      'gid' => $rid,
+      'grant_view' => TRUE,
+      'grant_update' => TRUE,
+      'grant_delete' => TRUE,
+      'priority' => 0,
+    );
+  }
+  // Or take it away.
+  else {
+    foreach ($grants as $key => $grant) {
+      if ($grant['realm'] != 'role_access') {
+        continue;
+      }
+      if ($grant['gid'] == $rid) {
+        unset($grants[$key]);
+      }
+    }
+  }
+}
