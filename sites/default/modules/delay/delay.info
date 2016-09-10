@@ -1,0 +1,5 @@
+name = Delay
+description = Delays user from publishing post Articles until they have been a member for more than two days
+package = Drupal 7 Development
+core = 7.x
+files[] = delay.module

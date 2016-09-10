@@ -1,0 +1,12 @@
+<?php
+
+function delay_node_access($node, $op, $account) {
+  if ($op != 'create' || $node != 'article') {
+    return NODE_ACCESS_IGNORE;
+  }
+
+  if (empty($account->created) || $account->created > (REQUEST_TIME - (48 * 3600))) {
+    return NODE_ACCESS_DENY;
+  }
+  return NODE_ACCESS_IGNORE;
+}
