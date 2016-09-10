@@ -1,0 +1,5 @@
+name = Role edit
+description = Allows user to edit other users content if they have the same roles
+package = Drupal 7 Development
+core = 7.x
+files[] = role_edit.module

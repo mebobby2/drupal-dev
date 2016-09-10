@@ -1,0 +1,16 @@
+<?php
+
+function role_edit_node_access($node, $op, $account) {
+  if ($op != 'update') {
+    return NODE_ACCESS_IGNORE;
+  }
+
+  $owner = user_load($node->uid);
+  $diff = array_diff($account->roles, $owner->roles);
+
+  if (empty($diff)) {
+    return NODE_ACCESS_ALLOW;
+  }
+
+  return NODE_ACCESS_DENY;
+}
