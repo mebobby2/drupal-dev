@@ -1,0 +1,7 @@
+; $id$
+
+name = Role Access
+description = Limit content access by user role.
+core = 7.x
+package = Drupal 7 Development
+files[] = role_access.module

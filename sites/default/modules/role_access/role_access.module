@@ -1,0 +1,56 @@
+<?php
+
+function role_access_node_access_records($node) {
+  $account = user_load($node->uid);
+
+  $roles = array_keys($account->roles);
+
+  $grants = array();
+
+  foreach ($roles as $grant_id) {
+    $grants[] = array(
+      'realm' => 'role_access',
+      'gid' => $grant_id,
+      'grant_view' => 1,
+      'grant_update' => 1,
+      'grant_delete' => 1,
+      'priority' => 0,
+    );
+  }
+  return $grants;
+}
+
+function role_access_node_grants($account, $op) {
+  $roles = array_keys($account->roles);
+
+  if (empty($roles)) {
+    return array();
+  }
+
+  $grants = array();
+
+  foreach ($roles as $grant_id) {
+    if (user_access($op . ' role access content')) {
+      $grants['role_access'][] = $grant_id;  
+    }
+  }
+
+  return $grants;
+}
+
+function role_access_permission() {
+  return array(
+    'view role access content' =>  array(
+      'title' => t('View role-restricted content'),
+      'description' => t('Allow users to view content assigned by role.'),
+    ),
+    'update role access content' =>  array(
+      'title' => t('Edit role-restricted content'),
+      'description' => t('Allow users to edit content assigned by role.'),
+    ),
+    'delete role access content' =>  array(
+      'title' => t('Delete role-restricted content'),
+      'description' => t('Allow users to delete content assigned by role.'),
+    ),
+  );
+}
