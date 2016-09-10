@@ -207,6 +207,31 @@ function artwork_block_view($delta = '') {
   return $block;
 }
 
+function artwork_field_extra_fields() {
+  $extra = array();
+
+  foreach (artwork_types() as $type) {
+    $extra['artwork'][$type->type] = array(
+      'form' => array(
+        'title' => array(
+          'label' => t('Title'),
+          'description' => t('The name of the artwork'),
+          'weight' => -5,
+        ),
+      ),
+      'display' => array(
+        'title' => array(
+          'label' => t('Title'),
+          'description' => t('The name of the artwork'),
+          'weight' => -5,
+        ),
+      ),
+    );
+  }
+
+  return $extra;
+}
+
 // NON-DRUPAL-HOOK FUNCTIONS
 
 function artwork_uri($artwork) {
