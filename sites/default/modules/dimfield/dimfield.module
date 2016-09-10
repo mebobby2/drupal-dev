@@ -221,6 +221,8 @@ function dimfield_field_widget_settings_form($field, $instance) {
   return $form;
 }
 
+#### Themes
+
 function dimfield_theme() {
   return array(
     'dimfield_combined_wrapper' => array(
@@ -242,6 +244,53 @@ function theme_dimfield_combined_wrapper($variables) {
     </div>
 END;
 }
+
+
+#### Formatters
+
+function dimfield_field_formatter_info() {
+  return array(
+    'dimfield_default' => array(
+      'label' => t('Default'),
+      'field types' => array('dimensions'),
+    ),
+    'dimfield_table' => array(
+      'label' => t('Show as table'),
+      'field types' => array('dimensions'),
+      'settings' => array('units_as' => 'column')
+    ),
+  );
+}
+
+function dimfield_field_formatter_view($obj_type, $object, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  $settings = $display['settings'];
+
+  switch ($display['type']) {
+    case 'dimfield_default':
+      foreach ($items as $delta => $item) {
+        if ($field['settings']['num_dimensions'] == 2) {
+          $output = t('@height @unit by @width @unit', array('@height' => $item['height'],
+                  '@width' => $item['width'],
+                   '@unit' => dimfield_units($item['units']),
+          ));
+        }
+        elseif ($field['settings']['num_dimensions'] == 3) {
+          $output = t('@height @unit by @width @unit by @depth @unit', array(
+              '@height' => $item['height'],
+              '@width' => $item['width'],
+              '@depth' => $item['depth'],
+              '@unit' => dimfield_units($item['units']),
+            ));
+        }
+        $element[$delta] = array('#markup' => $output);
+      }
+      break;
+  }
+  return $element;
+}
+
+#### Helpers
 
 function dimfield_units($unit = NULL) {
   static $units; //$units is static, meaning it will be remembered the next time this function is called
