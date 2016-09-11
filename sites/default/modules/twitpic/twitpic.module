@@ -1,5 +1,49 @@
 <?php
 
+function twitpic_menu() {
+  $items = array();
+
+  $items['twitpic/munge'] = array(
+    'title' => 'Munge a Twitpic image',
+    'description' => 'Displays a Twitpic image, munged in various ways (cropped, rotated, etc).',
+    'page callback' => 'twitpic_image_munge',
+    'access arguments' => array('access_content'),
+    'type' => MENU_CALLBACK,
+  ); 
+
+  return $items;
+}
+
+function twitpic_image_munge($id, $operation = 'rotate') {
+  $operations = array('rotate', 'desaturate', 'scale');
+  if (!in_array($operation, $operations)) {
+    return;
+  }
+
+  $twitpic_uri = 'twitpic://' . $id . '/thumb';
+  $local_uri = 'public://' . $id . '.jpg';
+  $twitpic_image = file_get_contents($twitpic_uri);
+  $local_path = file_unmanaged_save_data($twitpic_image, $local_uri, FILE_EXISTS_REPLACE);
+  $local_image = image_load($local_path);
+
+  switch ($operation) {
+    case 'scale':
+      image_scale($local_image, NULL, 50, FALSE);
+      break;
+    case 'desaturate':
+      image_desaturate($local_image);
+      break;
+    case 'rotate':
+      image_rotate($local_image, 45, 0x7D26CD);
+      break;
+  }
+
+  $local_uri = drupal_tempnam('public://', $id);
+  image_save($local_image, $local_uri);
+
+  return theme('image', array('path' => $local_uri));
+}
+
 function twitpic_stream_wrappers() {
   return array(
     'twitpic' => array(
