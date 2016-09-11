@@ -1,0 +1,9 @@
+;$Id$
+
+name = Watermark
+description = Add watermark to pictures
+
+core = 7.x
+package = Drupal 7 Development
+
+files[] = watermark.module
