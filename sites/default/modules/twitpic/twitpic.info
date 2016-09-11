@@ -1,0 +1,10 @@
+;$Id$
+
+name = Twitpic API Wrapper
+description = Stream pics from Twitpic
+
+core = 7.x
+package = Drupal 7 Development
+
+files[] = twitpic.module
+files[] = twitpicstreamwrapper.inc

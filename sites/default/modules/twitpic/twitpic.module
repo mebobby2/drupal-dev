@@ -1,0 +1,12 @@
+<?php
+
+function twitpic_stream_wrappers() {
+  return array(
+    'twitpic' => array(
+      'name' => 'Twitpic photos',
+      'class' => 'TwitpicStreamWrapper',
+      'description' => t('Photos from the Twitpic hosting service.'),
+      'type' => STREAM_WRAPPERS_READ_VISIBLE,
+    ),
+  );
+}
