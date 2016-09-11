@@ -3,6 +3,14 @@
 function twitpic_menu() {
   $items = array();
 
+  $items['twitpic/view'] = array(
+    'title' => 'View a Twitpic image',
+    'description' => 'Displays a Twitpic image, given an ID.',
+    'page callback' => 'twitpic_image_view',
+    'access arguments' => array('access_content'),
+    'type' => MENU_CALLBACK,
+  );
+
   $items['twitpic/munge'] = array(
     'title' => 'Munge a Twitpic image',
     'description' => 'Displays a Twitpic image, munged in various ways (cropped, rotated, etc).',
@@ -10,6 +18,14 @@ function twitpic_menu() {
     'access arguments' => array('access_content'),
     'type' => MENU_CALLBACK,
   ); 
+
+  $items['twitpic/style'] = array(
+    'title' => 'Munge a Twitpic image according to an image style',
+    'description' => 'Displays a Twitpic image, munged according to the specified image style.',
+    'page callback' => 'twitpic_image_style',
+    'access arguments' => array('access_content'),
+    'type' => MENU_CALLBACK,
+  );
 
   return $items;
 }
@@ -42,6 +58,24 @@ function twitpic_image_munge($id, $operation = 'rotate') {
   image_save($local_image, $local_uri);
 
   return theme('image', array('path' => $local_uri));
+}
+
+function twitpic_image_view($id, $size = 'thumb') {
+  file_transfer('twitpic://' . $id . '/' . $size, array('content-type' => 'image/jpeg'));
+}
+
+function twitpic_image_style($id, $style) {
+  $styles = image_styles();
+  if (!array_key_exists($style, $styles)) {
+    return;
+  }
+  
+  $twitpic_uri = 'twitpic://' . $id . '/thumb';
+  $local_uri = 'public://' . $id . '_' . $style . '.jpg';
+  $twitpic_image = file_get_contents($twitpic_uri);
+  $local_path = file_unmanaged_save_data($twitpic_image, $local_uri, FILE_EXISTS_REPLACE);
+
+  return theme('image_style', array('path' => $local_path));
 }
 
 function twitpic_stream_wrappers() {
