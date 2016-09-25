@@ -47,7 +47,7 @@ function _noteresource_delete($id) {
   noteresource_delete_note($id);
   return (object)array(
     'id' => $id,
-  )
+  );
 }
 
 function _noteresource_index($page, $parameters) {
@@ -55,10 +55,10 @@ function _noteresource_index($page, $parameters) {
 
   $notes = array();
   $res = db_query("SELECT * FROM {note} WHERE uid=:uid ORDER BY modified DESC", array(
-      ':uid' => $user->uid,
-    ));
+    ':uid' => $user->uid,
+  ));
 
-  while ($note = db_fetch_object($res)) {
+  foreach ($res as $note) {
     $notes[] = $note;
   }
 
