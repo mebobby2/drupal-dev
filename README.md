@@ -10,5 +10,7 @@ To install drupal locally:
 
 credentials for drupal admin: (mebobby:password)
 
-Upto page 336 - Chapter 11
+https://www.drupal.org/node/783460
+
+upto: Our client is quite trivial and will consist of one js file and one css file. I'm not going to write 
 
