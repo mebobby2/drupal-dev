@@ -1,0 +1,5 @@
+name = Note Resource
+description = Sample resoure implementation
+package = Notes example
+dependencies[] = services
+core = 7.x
