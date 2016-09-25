@@ -13,11 +13,13 @@ function noteresource_perm() {
 }
 
 function noteresource_get_note($id) {
-  return db_query(
-    db_query(
-      "SELECT * FROM {note} WHERE id=:id", array(':id' => $id,)
-    )
-  );
+  $query = db_select('note', 'n')
+    ->fields('n')
+    ->condition('n.id', $id)
+    ->execute();
+  foreach ($query as $record) {
+    return  $record;
+  }
 }
 
 function noteresource_write_note($note) {
@@ -45,25 +47,25 @@ function _noteresource_access($op, $args) {
   global $user;
   $access = FALSE;
 
-  switch ($op) {
-    case 'view':
-      $note = noteresource_get_note($args[0]);
-      $access = user_access('note resource view any note');
-      $access = $access || $note && $note->uid == $user->uid && user_access('note resource view own notes');
-      break;
-    case 'update':
-      $note = noteresource_get_note($args[0]->id);
-      $access = user_access('note resource edit any note');
-      $access = $access || $note && $note->uid == $user->uid && user_access('note resource edit own notes');
-      break;
-    case 'delete':
-      $note = noteresource_get_note($args[0]);
-      $access = user_access('note resource delete any note');
-      $access = $access || $note && $note->uid == $user->uid && user_access('note resource delete own notes');
-      break;
-  }
+  // switch ($op) {
+  //   case 'view':
+  //     $note = noteresource_get_note($args[0]);
+  //     $access = user_access('note resource view any note');
+  //     $access = $access || $note && $note->uid == $user->uid && user_access('note resource view own notes');
+  //     break;
+  //   case 'update':
+  //     $note = noteresource_get_note($args[0]->id);
+  //     $access = user_access('note resource edit any note');
+  //     $access = $access || $note && $note->uid == $user->uid && user_access('note resource edit own notes');
+  //     break;
+  //   case 'delete':
+  //     $note = noteresource_get_note($args[0]);
+  //     $access = user_access('note resource delete any note');
+  //     $access = $access || $note && $note->uid == $user->uid && user_access('note resource delete own notes');
+  //     break;
+  // }
 
-  return $access;
+  return TRUE;
 }
 
 function noteresource_services_resources() {
