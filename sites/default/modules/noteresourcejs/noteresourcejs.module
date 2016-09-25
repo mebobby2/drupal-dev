@@ -1,0 +1,11 @@
+<?php
+
+function noteresourcejs_ctools_plugin_api($owner, $api) {
+  if ($owner == 'services' && $api == 'services') {
+    return array(
+      'version' => 3,
+      'file' => 'notresourcejs.services.inc', // Optional parameter to indicate the file name to load.
+      'path' => drupal_get_path('module', 'noteresourcejs') . '/includes', // If specifying the file key, path is required.
+    );
+  }
+}
