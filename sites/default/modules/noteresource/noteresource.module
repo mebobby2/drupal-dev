@@ -31,6 +31,41 @@ function noteresource_delete_note($id) {
   );
 }
 
+/**
+ * Access callback for the note resource.
+ *
+ * @param string $op
+ *  The operation that's going to be performed.
+ * @param array $args
+ *  The arguments that will be passed to the callback.
+ * @return bool
+ *  Whether access is given or not.
+ */
+function _noteresource_access($op, $args) {
+  global $user;
+  $access = FALSE;
+
+  switch ($op) {
+    case 'view':
+      $note = noteresource_get_note($args[0]);
+      $access = user_access('note resource view any note');
+      $access = $access || $note->uid == $user->uid && user_access('note resource view own notes');
+      break;
+    case 'update':
+      $note = noteresource_get_note($args[0]->id);
+      $access = user_access('note resource edit any note');
+      $access = $access || $note->uid == $user->uid && user_access('note resource edit own notes');
+      break;
+    case 'delete':
+      $note = noteresource_get_note($args[0]);
+      $access = user_access('note resource delete any note');
+      $access = $access || $note->uid == $user->uid && user_access('note resource delete own notes');
+      break;
+  }
+
+  return $access;
+}
+
 function noteresource_services_resources() {
   return array(
    'note' => array(
