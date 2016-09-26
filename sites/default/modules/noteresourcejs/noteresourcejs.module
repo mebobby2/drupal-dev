@@ -11,8 +11,8 @@ function noteresourcejs_ctools_plugin_api($owner, $api) {
 }
 
 function noteresourcejs_init() {
-  drupal_add_css(drupal_get_path('module', 'noteresourcejs')) . '/css/notes.css');
-  drupal_add_js(drupal_get_path('module', 'noteresourcejs') . '/js/notes.js');
+  drupal_add_css(drupal_get_path('module', 'noteresourcejs') . '/css/note.css');
+  drupal_add_js(drupal_get_path('module', 'noteresourcejs') . '/js/note.js');
 }
 
 //Code was generated from structure/services export
