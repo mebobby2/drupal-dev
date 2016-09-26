@@ -65,7 +65,7 @@ function _noteresource_access($op, $args) {
       break;
   }
 
-  return access;
+  return $access;
 }
 
 function noteresource_services_resources() {
