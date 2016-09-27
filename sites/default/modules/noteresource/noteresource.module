@@ -1,5 +1,6 @@
 <?php
 
+#This should be noteresource_permission as *_perm hook is drupal 6
 function noteresource_perm() {
   return array(
     'note resource create',
